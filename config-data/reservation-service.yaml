@@ -12,7 +12,7 @@ spring:
   datasource:
     url: jdbc:postgresql://${DB_RESERVATION_HOST:localhost}:5432/${DB_RESERVATION_NAME:reservationdb}
     username: ${DB_RESERVATION_USER:postgres}
-    password: ${DB_RESERVATION_PASS:postgres}
+    password: sarumi
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
