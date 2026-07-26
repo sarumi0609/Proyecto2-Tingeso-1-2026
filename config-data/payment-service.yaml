@@ -12,7 +12,7 @@ spring:
   datasource:
     url: jdbc:postgresql://${DB_PAYMENT_HOST:localhost}:5432/${DB_PAYMENT_NAME:paymentdb}
     username: ${DB_PAYMENT_USER:postgres}
-    password: ${DB_PAYMENT_PASS:postgres}
+    password: sarumi
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
