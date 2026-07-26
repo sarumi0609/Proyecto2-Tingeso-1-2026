@@ -21,6 +21,8 @@ spec:
           env:
             - name: SPRING_CONFIG_IMPORT
               value: "configserver:http://config-service:8888"
+            - name: EUREKA_URL
+              value: "http://eureka-service:8761/eureka"
             - name: DB_PAYMENT_HOST
               value: "payment-postgres"
             - name: DB_PAYMENT_NAME
