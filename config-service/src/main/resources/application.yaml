@@ -1,0 +1,16 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-service
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/sarumi0609/Proyecto2-Tingeso-1-2026
+          default-label: main
+          search-paths: config-data
+          clone-on-start: true
+          username: sarumi0609
+          password: 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

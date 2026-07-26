@@ -1,0 +1,59 @@
+# ============================================================
+# Package Service — M2, puerto dinámico (0), ClusterIP
+# ============================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: package-service
+spec:
+  selector:
+    matchLabels:
+      app: package-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: package-service
+    spec:
+      containers:
+        - name: package-service
+          image: sarumimope/package-service:latest
+          env:
+            - name: SPRING_CONFIG_IMPORT
+              value: "configserver:http://config-service:8888"
+            - name: DB_PACKAGE_HOST
+              value: "package-postgres"
+            - name: DB_PACKAGE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: package-db-secret
+                  key: dbname
+            - name: DB_PACKAGE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: package-db-secret
+                  key: username
+            - name: DB_PACKAGE_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: package-db-secret
+                  key: password
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+---
+# ClusterIP permite que Eureka resuelva las IPs de los pods
+apiVersion: v1
+kind: Service
+metadata:
+  name: package-service
+spec:
+  selector:
+    app: package-service
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP

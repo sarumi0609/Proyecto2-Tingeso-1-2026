@@ -1,0 +1,59 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-service:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+spring:
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          # --- Package service ---
+          - id: package-service-packages
+            uri: lb://package-service
+            predicates:
+              - Path=/api/touristpackages/**
+          - id: package-service-discounts
+            uri: lb://package-service
+            predicates:
+              - Path=/api/discounts/**
+          - id: package-service-promotions
+            uri: lb://package-service
+            predicates:
+              - Path=/api/promotions/**
+          # --- Search service ---
+          - id: search-service
+            uri: lb://search-service
+            predicates:
+              - Path=/api/search/**
+          # --- Reservation service ---
+          - id: reservation-service
+            uri: lb://reservation-service
+            predicates:
+              - Path=/api/reservations/**
+          # --- Payment service ---
+          - id: payment-service
+            uri: lb://payment-service
+            predicates:
+              - Path=/api/payments/**
+          # --- Tracking service ---
+          - id: tracking-service
+            uri: lb://tracking-service
+            predicates:
+              - Path=/api/tracking/**
+          # --- Report service ---
+          - id: report-service
+            uri: lb://report-service
+            predicates:
+              - Path=/api/reports/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

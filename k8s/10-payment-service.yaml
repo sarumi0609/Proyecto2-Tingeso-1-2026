@@ -1,0 +1,58 @@
+# ============================================================
+# Payment Service — M5, puerto dinámico, ClusterIP
+# ============================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service
+spec:
+  selector:
+    matchLabels:
+      app: payment-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: payment-service
+    spec:
+      containers:
+        - name: payment-service
+          image: sarumimope/payment-service:latest
+          env:
+            - name: SPRING_CONFIG_IMPORT
+              value: "configserver:http://config-service:8888"
+            - name: DB_PAYMENT_HOST
+              value: "payment-postgres"
+            - name: DB_PAYMENT_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: payment-db-secret
+                  key: dbname
+            - name: DB_PAYMENT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: payment-db-secret
+                  key: username
+            - name: DB_PAYMENT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: payment-db-secret
+                  key: password
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+spec:
+  selector:
+    app: payment-service
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP
