@@ -12,7 +12,7 @@ spring:
   datasource:
     url: jdbc:postgresql://${DB_PACKAGE_HOST:localhost}:5432/${DB_PACKAGE_NAME:packagedb}
     username: ${DB_PACKAGE_USER:postgres}
-    password: ${DB_PACKAGE_PASS:postgres}
+    password: sarumi
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
