@@ -19,6 +19,8 @@ spec:
         - name: package-service
           image: sarumimope/package-service:latest
           env:
+            - name: CONFIG_SERVER_URL
+              value: "http://config-service:8888"
             - name: SPRING_CONFIG_IMPORT
               value: "configserver:http://config-service:8888"
             - name: EUREKA_URL
