@@ -1,21 +1,19 @@
 server:
-  port: 0
+  port: ${PORT:${SERVER_PORT:0}}
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/db_packages
+    username: postgres
+    password: sarumi
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka-service:8761/eureka
+      defaultZone: http://localhost:8761/eureka
   instance:
-    prefer-ip-address: true
-
-spring:
-  datasource:
-    url: jdbc:postgresql://${DB_PACKAGE_HOST:localhost}:5432/${DB_PACKAGE_NAME:packagedb}
-    username: ${DB_PACKAGE_USER:postgres}
-    password: ${DB_PACKAGE_PASS:postgres}
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: false
+    instance-id: ${spring.application.name}:${random.value}
