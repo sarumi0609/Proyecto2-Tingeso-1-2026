@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/db_reservations
-    username: postgres
-    password: sarumi
+    url: jdbc:postgresql://${DB_RESERVATION_HOST:localhost}:5432/${DB_RESERVATION_NAME:db_reservations}
+    username: ${DB_RESERVATION_USER:postgres}
+    password: ${DB_RESERVATION_PASS:sarumi}
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,6 +14,6 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}
   instance:
     instance-id: ${spring.application.name}:${random.value}
